@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2cb67f;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(131, 154, 231, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            padding: 8px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #prediction {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Revenue Prediction over months</h1>
+        
+        <label for="year">Year:</label>
+        <input type="number" id="year" min="2015" max="2017" value="2016">
+        
+        <label for="month">Month:</label>
+        <select id="month">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+        
+        <button onclick="predict()">Predict</button>
+        
+        <div id="prediction"></div>
+    </div>
+
+    <script>
+        const c = 15596.05553846;
+        const m = 426494.55888095;
+        const Season = [-275827.02484375, -202211.94588542,  -16161.54671875,
+                         58580.65703125,  110117.04828125,   77975.82578125,
+                        163097.20453125,  207093.68744792,  156170.09703125,
+                        101070.21953125, -156785.14130208, -223119.08088542];
+        
+        function predict() {
+            const year = parseInt(document.getElementById("year").value);
+            const month = parseInt(document.getElementById("month").value);
+            
+            const extrapolation_index = (year - 2016) * 12 + month + 1;
+            const predict_revenue_trend = m * extrapolation_index + c;
+            const predict_revenue = predict_revenue_trend + Season[month - 1];
+            
+            document.getElementById("prediction").innerText = "Predicted Revenue: $" + predict_revenue.toFixed(2);
+        }
+    </script>
+</body>
+</html>
